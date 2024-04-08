@@ -1,0 +1,1811 @@
+Terminals unused in grammar
+
+    ENUM
+    STRUCT
+    UNION
+    SHORT
+    LONG
+    SIGNED
+    UNSIGNED
+    REGISTER
+    GOTO
+    SIZEOF
+    TYPEDEF
+    WHILE
+    FOR
+    DO
+    BREAK
+    IF
+    ELSE
+    ELSEIF
+    SWITCH
+    DEFAULT
+    CASE
+    DEFINE
+    UNDEF
+    IFDEF
+    IFNDEF
+    PPIF
+    PPELSE
+    ENDIF
+    RETURN
+    DOT
+    STRUCTPOINT
+    SINQUOTE
+    SFTLEFT
+    SFTRIGHT
+    SHORTADD
+    SHORTMUL
+    SHORTDIV
+    SHORTSUB
+    SHORTMOD
+
+
+Rules useless in parser due to conflicts
+
+   51 $@5: ε
+
+
+State 42 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: Start $end
+
+    1 Start: Prog
+
+    2 Prog: INCLUDE HEADER Prog
+    3     | INCLUDE STRLITERAL Prog
+    4     | Main Prog
+    5     | error
+    6     | ';'
+    7     | ε
+
+    8 Type: INT
+    9     | CHAR
+   10     | FLOAT
+   11     | DOUBLE
+   12     | VOID
+
+   13 TypeSpecifier: CONST TypeSpecifier
+   14              | STATIC
+   15              | EXTERN
+   16              | VOLATILE
+   17              | AUTO
+   18              | CONST
+
+   19 TypeList: Type TypeSpecifier
+   20         | TypeSpecifier Type
+   21         | Type
+
+   22 $@1: ε
+
+   23 Main: TypeList MAIN '(' MainArg1 ')' '{' $@1 Body '}'
+
+   24 MainArg1: INT ID ',' MainArg2
+   25         | INT ID
+   26         | ε
+
+   27 MainArg2: CHAR '*' '*' ID ',' MainArg3
+   28         | CHAR '*' ID '[' ']' ',' MainArg3
+   29         | CHAR '*' ID '[' ']'
+   30         | CHAR '*' '*' ID
+   31         | ε
+
+   32 MainArg3: CHAR '*' '*' ID
+   33         | CHAR '*' ID '[' ']'
+   34         | ε
+
+   35 SnglStmt: VarDeclr ';'
+   36         | VarInit ';'
+   37         | ';'
+
+   38 $@2: ε
+
+   39 Body: '{' $@2 Body '}'
+   40     | SnglStmt Body
+   41     | ε
+
+   42 VarDeclr: TypeList VarList
+
+   43 $@3: ε
+
+   44 VarList: ID ',' $@3 VarList
+
+   45 $@4: ε
+
+   46 VarList: ID '=' VarInit ',' $@4 VarList
+   47        | ID
+   48        | ID '=' VarInit
+   49        | ID '=' STRLITERAL
+
+   50 VarInit: Expr
+
+   51 $@5: ε
+
+   52 VarInit: ID $@5 '=' Expr
+   53        | IncDec
+   54        | IncDec Expr
+   55        | ID '=' STRLITERAL
+
+   56 IncDec: ID INC
+   57       | ID DEC
+   58       | INC ID
+   59       | DEC ID
+
+   60 Expr: Expr Relop E
+   61     | E
+
+   62 E: E '+' T
+   63  | E '-' T
+   64  | T
+
+   65 T: T '*' F
+   66  | T '/' F
+   67  | F
+
+   68 F: NUM
+   69  | INTEGER
+   70  | ID
+   71  | CHARACTER
+   72  | '(' Condition ')'
+   73  | '!' ID
+   74  | '!' INTEGER
+   75  | '!' NUM
+   76  | '!' CHARACTER
+   77  | '!' '(' Condition ')'
+
+   78 Condition: VarInit Logical Condition
+   79          | VarInit
+
+   80 Logical: '&' '&'
+   81        | '|' '|'
+
+   82 Relop: LESSER
+   83      | LESSEREQ
+   84      | GREATER
+   85      | GREATEREQ
+   86      | EQCOMP
+   87      | NOTEQ
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '!' (33) 73 74 75 76 77
+    '&' (38) 80
+    '(' (40) 23 72 77
+    ')' (41) 23 72 77
+    '*' (42) 27 28 29 30 32 33 65
+    '+' (43) 62
+    ',' (44) 24 27 28 44 46
+    '-' (45) 63
+    '/' (47) 66
+    ';' (59) 6 35 36 37
+    '=' (61) 46 48 49 52 55
+    '[' (91) 28 29 33
+    ']' (93) 28 29 33
+    '{' (123) 23 39
+    '|' (124) 81
+    '}' (125) 23 39
+    error (256) 5
+    VOID (258) 12
+    INT (259) 8 24 25
+    FLOAT (260) 10
+    CHAR (261) 9 27 28 29 30 32 33
+    DOUBLE (262) 11
+    ENUM (263)
+    STRUCT (264)
+    UNION (265)
+    SHORT (266)
+    LONG (267)
+    SIGNED (268)
+    UNSIGNED (269)
+    AUTO (270) 17
+    STATIC (271) 14
+    EXTERN (272) 15
+    VOLATILE (273) 16
+    CONST (274) 13 18
+    REGISTER (275)
+    GOTO (276)
+    SIZEOF (277)
+    TYPEDEF (278)
+    WHILE (279)
+    FOR (280)
+    DO (281)
+    BREAK (282)
+    IF (283)
+    ELSE (284)
+    ELSEIF (285)
+    SWITCH (286)
+    DEFAULT (287)
+    CASE (288)
+    INCLUDE (289) 2 3
+    DEFINE (290)
+    UNDEF (291)
+    IFDEF (292)
+    IFNDEF (293)
+    PPIF (294)
+    PPELSE (295)
+    ENDIF (296)
+    HEADER (297) 2
+    MAIN (298) 23
+    RETURN (299)
+    CHARACTER (300) 71 76
+    ID (301) 24 25 27 28 29 30 32 33 44 46 47 48 49 52 55 56 57 58 59 70 73
+    INTEGER (302) 69 74
+    NUM (303) 68 75
+    STRLITERAL (304) 3 49 55
+    DOT (305)
+    STRUCTPOINT (306)
+    SINQUOTE (307)
+    INC (308) 56 58
+    DEC (309) 57 59
+    SFTLEFT (310)
+    SFTRIGHT (311)
+    SHORTADD (312)
+    SHORTMUL (313)
+    SHORTDIV (314)
+    SHORTSUB (315)
+    SHORTMOD (316)
+    LESSER (317) 82
+    LESSEREQ (318) 83
+    GREATER (319) 84
+    GREATEREQ (320) 85
+    EQCOMP (321) 86
+    NOTEQ (322) 87
+
+
+Nonterminals, with rules where they appear
+
+    $accept (84)
+        on left: 0
+    Start (85)
+        on left: 1
+        on right: 0
+    Prog (86)
+        on left: 2 3 4 5 6 7
+        on right: 1 2 3 4
+    Type (87)
+        on left: 8 9 10 11 12
+        on right: 19 20 21
+    TypeSpecifier (88)
+        on left: 13 14 15 16 17 18
+        on right: 13 19 20
+    TypeList (89)
+        on left: 19 20 21
+        on right: 23 42
+    Main (90)
+        on left: 23
+        on right: 4
+    $@1 (91)
+        on left: 22
+        on right: 23
+    MainArg1 (92)
+        on left: 24 25 26
+        on right: 23
+    MainArg2 (93)
+        on left: 27 28 29 30 31
+        on right: 24
+    MainArg3 (94)
+        on left: 32 33 34
+        on right: 27 28
+    SnglStmt (95)
+        on left: 35 36 37
+        on right: 40
+    Body (96)
+        on left: 39 40 41
+        on right: 23 39 40
+    $@2 (97)
+        on left: 38
+        on right: 39
+    VarDeclr (98)
+        on left: 42
+        on right: 35
+    VarList (99)
+        on left: 44 46 47 48 49
+        on right: 42 44 46
+    $@3 (100)
+        on left: 43
+        on right: 44
+    $@4 (101)
+        on left: 45
+        on right: 46
+    VarInit (102)
+        on left: 50 52 53 54 55
+        on right: 36 46 48 78 79
+    $@5 (103)
+        on left: 51
+        on right: 52
+    IncDec (104)
+        on left: 56 57 58 59
+        on right: 53 54
+    Expr (105)
+        on left: 60 61
+        on right: 50 52 54 60
+    E (106)
+        on left: 62 63 64
+        on right: 60 61 62 63
+    T (107)
+        on left: 65 66 67
+        on right: 62 63 64 65 66
+    F (108)
+        on left: 68 69 70 71 72 73 74 75 76 77
+        on right: 65 66 67
+    Condition (109)
+        on left: 78 79
+        on right: 72 77 78
+    Logical (110)
+        on left: 80 81
+        on right: 78
+    Relop (111)
+        on left: 82 83 84 85 86 87
+        on right: 60
+
+
+State 0
+
+    0 $accept: • Start $end
+
+    error     shift, and go to state 1
+    VOID      shift, and go to state 2
+    INT       shift, and go to state 3
+    FLOAT     shift, and go to state 4
+    CHAR      shift, and go to state 5
+    DOUBLE    shift, and go to state 6
+    AUTO      shift, and go to state 7
+    STATIC    shift, and go to state 8
+    EXTERN    shift, and go to state 9
+    VOLATILE  shift, and go to state 10
+    CONST     shift, and go to state 11
+    INCLUDE   shift, and go to state 12
+    ';'       shift, and go to state 13
+
+    $end  reduce using rule 7 (Prog)
+
+    Start          go to state 14
+    Prog           go to state 15
+    Type           go to state 16
+    TypeSpecifier  go to state 17
+    TypeList       go to state 18
+    Main           go to state 19
+
+
+State 1
+
+    5 Prog: error •
+
+    $default  reduce using rule 5 (Prog)
+
+
+State 2
+
+   12 Type: VOID •
+
+    $default  reduce using rule 12 (Type)
+
+
+State 3
+
+    8 Type: INT •
+
+    $default  reduce using rule 8 (Type)
+
+
+State 4
+
+   10 Type: FLOAT •
+
+    $default  reduce using rule 10 (Type)
+
+
+State 5
+
+    9 Type: CHAR •
+
+    $default  reduce using rule 9 (Type)
+
+
+State 6
+
+   11 Type: DOUBLE •
+
+    $default  reduce using rule 11 (Type)
+
+
+State 7
+
+   17 TypeSpecifier: AUTO •
+
+    $default  reduce using rule 17 (TypeSpecifier)
+
+
+State 8
+
+   14 TypeSpecifier: STATIC •
+
+    $default  reduce using rule 14 (TypeSpecifier)
+
+
+State 9
+
+   15 TypeSpecifier: EXTERN •
+
+    $default  reduce using rule 15 (TypeSpecifier)
+
+
+State 10
+
+   16 TypeSpecifier: VOLATILE •
+
+    $default  reduce using rule 16 (TypeSpecifier)
+
+
+State 11
+
+   13 TypeSpecifier: CONST • TypeSpecifier
+   18              | CONST •
+
+    AUTO      shift, and go to state 7
+    STATIC    shift, and go to state 8
+    EXTERN    shift, and go to state 9
+    VOLATILE  shift, and go to state 10
+    CONST     shift, and go to state 11
+
+    $default  reduce using rule 18 (TypeSpecifier)
+
+    TypeSpecifier  go to state 20
+
+
+State 12
+
+    2 Prog: INCLUDE • HEADER Prog
+    3     | INCLUDE • STRLITERAL Prog
+
+    HEADER      shift, and go to state 21
+    STRLITERAL  shift, and go to state 22
+
+
+State 13
+
+    6 Prog: ';' •
+
+    $default  reduce using rule 6 (Prog)
+
+
+State 14
+
+    0 $accept: Start • $end
+
+    $end  shift, and go to state 23
+
+
+State 15
+
+    1 Start: Prog •
+
+    $default  reduce using rule 1 (Start)
+
+
+State 16
+
+   19 TypeList: Type • TypeSpecifier
+   21         | Type •
+
+    AUTO      shift, and go to state 7
+    STATIC    shift, and go to state 8
+    EXTERN    shift, and go to state 9
+    VOLATILE  shift, and go to state 10
+    CONST     shift, and go to state 11
+
+    $default  reduce using rule 21 (TypeList)
+
+    TypeSpecifier  go to state 24
+
+
+State 17
+
+   20 TypeList: TypeSpecifier • Type
+
+    VOID    shift, and go to state 2
+    INT     shift, and go to state 3
+    FLOAT   shift, and go to state 4
+    CHAR    shift, and go to state 5
+    DOUBLE  shift, and go to state 6
+
+    Type  go to state 25
+
+
+State 18
+
+   23 Main: TypeList • MAIN '(' MainArg1 ')' '{' $@1 Body '}'
+
+    MAIN  shift, and go to state 26
+
+
+State 19
+
+    4 Prog: Main • Prog
+
+    error     shift, and go to state 1
+    VOID      shift, and go to state 2
+    INT       shift, and go to state 3
+    FLOAT     shift, and go to state 4
+    CHAR      shift, and go to state 5
+    DOUBLE    shift, and go to state 6
+    AUTO      shift, and go to state 7
+    STATIC    shift, and go to state 8
+    EXTERN    shift, and go to state 9
+    VOLATILE  shift, and go to state 10
+    CONST     shift, and go to state 11
+    INCLUDE   shift, and go to state 12
+    ';'       shift, and go to state 13
+
+    $end  reduce using rule 7 (Prog)
+
+    Prog           go to state 27
+    Type           go to state 16
+    TypeSpecifier  go to state 17
+    TypeList       go to state 18
+    Main           go to state 19
+
+
+State 20
+
+   13 TypeSpecifier: CONST TypeSpecifier •
+
+    $default  reduce using rule 13 (TypeSpecifier)
+
+
+State 21
+
+    2 Prog: INCLUDE HEADER • Prog
+
+    error     shift, and go to state 1
+    VOID      shift, and go to state 2
+    INT       shift, and go to state 3
+    FLOAT     shift, and go to state 4
+    CHAR      shift, and go to state 5
+    DOUBLE    shift, and go to state 6
+    AUTO      shift, and go to state 7
+    STATIC    shift, and go to state 8
+    EXTERN    shift, and go to state 9
+    VOLATILE  shift, and go to state 10
+    CONST     shift, and go to state 11
+    INCLUDE   shift, and go to state 12
+    ';'       shift, and go to state 13
+
+    $end  reduce using rule 7 (Prog)
+
+    Prog           go to state 28
+    Type           go to state 16
+    TypeSpecifier  go to state 17
+    TypeList       go to state 18
+    Main           go to state 19
+
+
+State 22
+
+    3 Prog: INCLUDE STRLITERAL • Prog
+
+    error     shift, and go to state 1
+    VOID      shift, and go to state 2
+    INT       shift, and go to state 3
+    FLOAT     shift, and go to state 4
+    CHAR      shift, and go to state 5
+    DOUBLE    shift, and go to state 6
+    AUTO      shift, and go to state 7
+    STATIC    shift, and go to state 8
+    EXTERN    shift, and go to state 9
+    VOLATILE  shift, and go to state 10
+    CONST     shift, and go to state 11
+    INCLUDE   shift, and go to state 12
+    ';'       shift, and go to state 13
+
+    $end  reduce using rule 7 (Prog)
+
+    Prog           go to state 29
+    Type           go to state 16
+    TypeSpecifier  go to state 17
+    TypeList       go to state 18
+    Main           go to state 19
+
+
+State 23
+
+    0 $accept: Start $end •
+
+    $default  accept
+
+
+State 24
+
+   19 TypeList: Type TypeSpecifier •
+
+    $default  reduce using rule 19 (TypeList)
+
+
+State 25
+
+   20 TypeList: TypeSpecifier Type •
+
+    $default  reduce using rule 20 (TypeList)
+
+
+State 26
+
+   23 Main: TypeList MAIN • '(' MainArg1 ')' '{' $@1 Body '}'
+
+    '('  shift, and go to state 30
+
+
+State 27
+
+    4 Prog: Main Prog •
+
+    $default  reduce using rule 4 (Prog)
+
+
+State 28
+
+    2 Prog: INCLUDE HEADER Prog •
+
+    $default  reduce using rule 2 (Prog)
+
+
+State 29
+
+    3 Prog: INCLUDE STRLITERAL Prog •
+
+    $default  reduce using rule 3 (Prog)
+
+
+State 30
+
+   23 Main: TypeList MAIN '(' • MainArg1 ')' '{' $@1 Body '}'
+
+    INT  shift, and go to state 31
+
+    $default  reduce using rule 26 (MainArg1)
+
+    MainArg1  go to state 32
+
+
+State 31
+
+   24 MainArg1: INT • ID ',' MainArg2
+   25         | INT • ID
+
+    ID  shift, and go to state 33
+
+
+State 32
+
+   23 Main: TypeList MAIN '(' MainArg1 • ')' '{' $@1 Body '}'
+
+    ')'  shift, and go to state 34
+
+
+State 33
+
+   24 MainArg1: INT ID • ',' MainArg2
+   25         | INT ID •
+
+    ','  shift, and go to state 35
+
+    $default  reduce using rule 25 (MainArg1)
+
+
+State 34
+
+   23 Main: TypeList MAIN '(' MainArg1 ')' • '{' $@1 Body '}'
+
+    '{'  shift, and go to state 36
+
+
+State 35
+
+   24 MainArg1: INT ID ',' • MainArg2
+
+    CHAR  shift, and go to state 37
+
+    $default  reduce using rule 31 (MainArg2)
+
+    MainArg2  go to state 38
+
+
+State 36
+
+   23 Main: TypeList MAIN '(' MainArg1 ')' '{' • $@1 Body '}'
+
+    $default  reduce using rule 22 ($@1)
+
+    $@1  go to state 39
+
+
+State 37
+
+   27 MainArg2: CHAR • '*' '*' ID ',' MainArg3
+   28         | CHAR • '*' ID '[' ']' ',' MainArg3
+   29         | CHAR • '*' ID '[' ']'
+   30         | CHAR • '*' '*' ID
+
+    '*'  shift, and go to state 40
+
+
+State 38
+
+   24 MainArg1: INT ID ',' MainArg2 •
+
+    $default  reduce using rule 24 (MainArg1)
+
+
+State 39
+
+   23 Main: TypeList MAIN '(' MainArg1 ')' '{' $@1 • Body '}'
+
+    VOID       shift, and go to state 2
+    INT        shift, and go to state 3
+    FLOAT      shift, and go to state 4
+    CHAR       shift, and go to state 5
+    DOUBLE     shift, and go to state 6
+    AUTO       shift, and go to state 7
+    STATIC     shift, and go to state 8
+    EXTERN     shift, and go to state 9
+    VOLATILE   shift, and go to state 10
+    CONST      shift, and go to state 11
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 42
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    INC        shift, and go to state 45
+    DEC        shift, and go to state 46
+    ';'        shift, and go to state 47
+    '('        shift, and go to state 48
+    '{'        shift, and go to state 49
+    '!'        shift, and go to state 50
+
+    $default  reduce using rule 41 (Body)
+
+    Type           go to state 16
+    TypeSpecifier  go to state 17
+    TypeList       go to state 51
+    SnglStmt       go to state 52
+    Body           go to state 53
+    VarDeclr       go to state 54
+    VarInit        go to state 55
+    IncDec         go to state 56
+    Expr           go to state 57
+    E              go to state 58
+    T              go to state 59
+    F              go to state 60
+
+
+State 40
+
+   27 MainArg2: CHAR '*' • '*' ID ',' MainArg3
+   28         | CHAR '*' • ID '[' ']' ',' MainArg3
+   29         | CHAR '*' • ID '[' ']'
+   30         | CHAR '*' • '*' ID
+
+    ID   shift, and go to state 61
+    '*'  shift, and go to state 62
+
+
+State 41
+
+   71 F: CHARACTER •
+
+    $default  reduce using rule 71 (F)
+
+
+State 42
+
+   52 VarInit: ID • $@5 '=' Expr
+   55        | ID • '=' STRLITERAL
+   56 IncDec: ID • INC
+   57       | ID • DEC
+   70 F: ID •
+
+    INC  shift, and go to state 63
+    DEC  shift, and go to state 64
+    '='  shift, and go to state 65
+
+    '='       [reduce using rule 51 ($@5)]
+    $default  reduce using rule 70 (F)
+
+    $@5  go to state 66
+
+    shift/reduce conflict on token '=':
+       51 $@5: ε •
+       55 VarInit: ID • '=' STRLITERAL
+      First example: TypeList MAIN '(' MainArg1 ')' '{' $@1 ID • '=' STRLITERAL ';' Body '}' $end
+      Shift derivation
+        $accept
+        ↳ 0: Start                                                                                                $end
+             ↳ 1: Main
+                  ↳ 23: TypeList MAIN '(' MainArg1 ')' '{' $@1 Body                                           '}'
+                                                               ↳ 40: SnglStmt                            Body
+                                                                     ↳ 36: VarInit                   ';'
+                                                                           ↳ 55: ID • '=' STRLITERAL
+      Second example: TypeList MAIN '(' MainArg1 ')' '{' $@1 ID • '=' Expr ';' Body '}' Prog $end
+      Reduce derivation
+        $accept
+        ↳ 0: Start                                                                                                            $end
+             ↳ 1: Prog
+                  ↳ 4: Main                                                                                              Prog
+                       ↳ 23: TypeList MAIN '(' MainArg1 ')' '{' $@1 Body                                             '}'
+                                                                    ↳ 40: SnglStmt                              Body
+                                                                          ↳ 36: VarInit                     ';'
+                                                                                ↳ 52: ID $@5       '=' Expr
+                                                                                         ↳ 51: ε •
+
+
+
+State 43
+
+   69 F: INTEGER •
+
+    $default  reduce using rule 69 (F)
+
+
+State 44
+
+   68 F: NUM •
+
+    $default  reduce using rule 68 (F)
+
+
+State 45
+
+   58 IncDec: INC • ID
+
+    ID  shift, and go to state 67
+
+
+State 46
+
+   59 IncDec: DEC • ID
+
+    ID  shift, and go to state 68
+
+
+State 47
+
+   37 SnglStmt: ';' •
+
+    $default  reduce using rule 37 (SnglStmt)
+
+
+State 48
+
+   72 F: '(' • Condition ')'
+
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 42
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    INC        shift, and go to state 45
+    DEC        shift, and go to state 46
+    '('        shift, and go to state 48
+    '!'        shift, and go to state 50
+
+    VarInit    go to state 69
+    IncDec     go to state 56
+    Expr       go to state 57
+    E          go to state 58
+    T          go to state 59
+    F          go to state 60
+    Condition  go to state 70
+
+
+State 49
+
+   39 Body: '{' • $@2 Body '}'
+
+    $default  reduce using rule 38 ($@2)
+
+    $@2  go to state 71
+
+
+State 50
+
+   73 F: '!' • ID
+   74  | '!' • INTEGER
+   75  | '!' • NUM
+   76  | '!' • CHARACTER
+   77  | '!' • '(' Condition ')'
+
+    CHARACTER  shift, and go to state 72
+    ID         shift, and go to state 73
+    INTEGER    shift, and go to state 74
+    NUM        shift, and go to state 75
+    '('        shift, and go to state 76
+
+
+State 51
+
+   42 VarDeclr: TypeList • VarList
+
+    ID  shift, and go to state 77
+
+    VarList  go to state 78
+
+
+State 52
+
+   40 Body: SnglStmt • Body
+
+    VOID       shift, and go to state 2
+    INT        shift, and go to state 3
+    FLOAT      shift, and go to state 4
+    CHAR       shift, and go to state 5
+    DOUBLE     shift, and go to state 6
+    AUTO       shift, and go to state 7
+    STATIC     shift, and go to state 8
+    EXTERN     shift, and go to state 9
+    VOLATILE   shift, and go to state 10
+    CONST      shift, and go to state 11
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 42
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    INC        shift, and go to state 45
+    DEC        shift, and go to state 46
+    ';'        shift, and go to state 47
+    '('        shift, and go to state 48
+    '{'        shift, and go to state 49
+    '!'        shift, and go to state 50
+
+    $default  reduce using rule 41 (Body)
+
+    Type           go to state 16
+    TypeSpecifier  go to state 17
+    TypeList       go to state 51
+    SnglStmt       go to state 52
+    Body           go to state 79
+    VarDeclr       go to state 54
+    VarInit        go to state 55
+    IncDec         go to state 56
+    Expr           go to state 57
+    E              go to state 58
+    T              go to state 59
+    F              go to state 60
+
+
+State 53
+
+   23 Main: TypeList MAIN '(' MainArg1 ')' '{' $@1 Body • '}'
+
+    '}'  shift, and go to state 80
+
+
+State 54
+
+   35 SnglStmt: VarDeclr • ';'
+
+    ';'  shift, and go to state 81
+
+
+State 55
+
+   36 SnglStmt: VarInit • ';'
+
+    ';'  shift, and go to state 82
+
+
+State 56
+
+   53 VarInit: IncDec •
+   54        | IncDec • Expr
+
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 83
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    '('        shift, and go to state 48
+    '!'        shift, and go to state 50
+
+    $default  reduce using rule 53 (VarInit)
+
+    Expr  go to state 84
+    E     go to state 58
+    T     go to state 59
+    F     go to state 60
+
+
+State 57
+
+   50 VarInit: Expr •
+   60 Expr: Expr • Relop E
+
+    LESSER     shift, and go to state 85
+    LESSEREQ   shift, and go to state 86
+    GREATER    shift, and go to state 87
+    GREATEREQ  shift, and go to state 88
+    EQCOMP     shift, and go to state 89
+    NOTEQ      shift, and go to state 90
+
+    $default  reduce using rule 50 (VarInit)
+
+    Relop  go to state 91
+
+
+State 58
+
+   61 Expr: E •
+   62 E: E • '+' T
+   63  | E • '-' T
+
+    '+'  shift, and go to state 92
+    '-'  shift, and go to state 93
+
+    $default  reduce using rule 61 (Expr)
+
+
+State 59
+
+   64 E: T •
+   65 T: T • '*' F
+   66  | T • '/' F
+
+    '*'  shift, and go to state 94
+    '/'  shift, and go to state 95
+
+    $default  reduce using rule 64 (E)
+
+
+State 60
+
+   67 T: F •
+
+    $default  reduce using rule 67 (T)
+
+
+State 61
+
+   28 MainArg2: CHAR '*' ID • '[' ']' ',' MainArg3
+   29         | CHAR '*' ID • '[' ']'
+
+    '['  shift, and go to state 96
+
+
+State 62
+
+   27 MainArg2: CHAR '*' '*' • ID ',' MainArg3
+   30         | CHAR '*' '*' • ID
+
+    ID  shift, and go to state 97
+
+
+State 63
+
+   56 IncDec: ID INC •
+
+    $default  reduce using rule 56 (IncDec)
+
+
+State 64
+
+   57 IncDec: ID DEC •
+
+    $default  reduce using rule 57 (IncDec)
+
+
+State 65
+
+   55 VarInit: ID '=' • STRLITERAL
+
+    STRLITERAL  shift, and go to state 98
+
+
+State 66
+
+   52 VarInit: ID $@5 • '=' Expr
+
+    '='  shift, and go to state 99
+
+
+State 67
+
+   58 IncDec: INC ID •
+
+    $default  reduce using rule 58 (IncDec)
+
+
+State 68
+
+   59 IncDec: DEC ID •
+
+    $default  reduce using rule 59 (IncDec)
+
+
+State 69
+
+   78 Condition: VarInit • Logical Condition
+   79          | VarInit •
+
+    '&'  shift, and go to state 100
+    '|'  shift, and go to state 101
+
+    $default  reduce using rule 79 (Condition)
+
+    Logical  go to state 102
+
+
+State 70
+
+   72 F: '(' Condition • ')'
+
+    ')'  shift, and go to state 103
+
+
+State 71
+
+   39 Body: '{' $@2 • Body '}'
+
+    VOID       shift, and go to state 2
+    INT        shift, and go to state 3
+    FLOAT      shift, and go to state 4
+    CHAR       shift, and go to state 5
+    DOUBLE     shift, and go to state 6
+    AUTO       shift, and go to state 7
+    STATIC     shift, and go to state 8
+    EXTERN     shift, and go to state 9
+    VOLATILE   shift, and go to state 10
+    CONST      shift, and go to state 11
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 42
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    INC        shift, and go to state 45
+    DEC        shift, and go to state 46
+    ';'        shift, and go to state 47
+    '('        shift, and go to state 48
+    '{'        shift, and go to state 49
+    '!'        shift, and go to state 50
+
+    $default  reduce using rule 41 (Body)
+
+    Type           go to state 16
+    TypeSpecifier  go to state 17
+    TypeList       go to state 51
+    SnglStmt       go to state 52
+    Body           go to state 104
+    VarDeclr       go to state 54
+    VarInit        go to state 55
+    IncDec         go to state 56
+    Expr           go to state 57
+    E              go to state 58
+    T              go to state 59
+    F              go to state 60
+
+
+State 72
+
+   76 F: '!' CHARACTER •
+
+    $default  reduce using rule 76 (F)
+
+
+State 73
+
+   73 F: '!' ID •
+
+    $default  reduce using rule 73 (F)
+
+
+State 74
+
+   74 F: '!' INTEGER •
+
+    $default  reduce using rule 74 (F)
+
+
+State 75
+
+   75 F: '!' NUM •
+
+    $default  reduce using rule 75 (F)
+
+
+State 76
+
+   77 F: '!' '(' • Condition ')'
+
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 42
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    INC        shift, and go to state 45
+    DEC        shift, and go to state 46
+    '('        shift, and go to state 48
+    '!'        shift, and go to state 50
+
+    VarInit    go to state 69
+    IncDec     go to state 56
+    Expr       go to state 57
+    E          go to state 58
+    T          go to state 59
+    F          go to state 60
+    Condition  go to state 105
+
+
+State 77
+
+   44 VarList: ID • ',' $@3 VarList
+   46        | ID • '=' VarInit ',' $@4 VarList
+   47        | ID •
+   48        | ID • '=' VarInit
+   49        | ID • '=' STRLITERAL
+
+    ','  shift, and go to state 106
+    '='  shift, and go to state 107
+
+    $default  reduce using rule 47 (VarList)
+
+
+State 78
+
+   42 VarDeclr: TypeList VarList •
+
+    $default  reduce using rule 42 (VarDeclr)
+
+
+State 79
+
+   40 Body: SnglStmt Body •
+
+    $default  reduce using rule 40 (Body)
+
+
+State 80
+
+   23 Main: TypeList MAIN '(' MainArg1 ')' '{' $@1 Body '}' •
+
+    $default  reduce using rule 23 (Main)
+
+
+State 81
+
+   35 SnglStmt: VarDeclr ';' •
+
+    $default  reduce using rule 35 (SnglStmt)
+
+
+State 82
+
+   36 SnglStmt: VarInit ';' •
+
+    $default  reduce using rule 36 (SnglStmt)
+
+
+State 83
+
+   70 F: ID •
+
+    $default  reduce using rule 70 (F)
+
+
+State 84
+
+   54 VarInit: IncDec Expr •
+   60 Expr: Expr • Relop E
+
+    LESSER     shift, and go to state 85
+    LESSEREQ   shift, and go to state 86
+    GREATER    shift, and go to state 87
+    GREATEREQ  shift, and go to state 88
+    EQCOMP     shift, and go to state 89
+    NOTEQ      shift, and go to state 90
+
+    $default  reduce using rule 54 (VarInit)
+
+    Relop  go to state 91
+
+
+State 85
+
+   82 Relop: LESSER •
+
+    $default  reduce using rule 82 (Relop)
+
+
+State 86
+
+   83 Relop: LESSEREQ •
+
+    $default  reduce using rule 83 (Relop)
+
+
+State 87
+
+   84 Relop: GREATER •
+
+    $default  reduce using rule 84 (Relop)
+
+
+State 88
+
+   85 Relop: GREATEREQ •
+
+    $default  reduce using rule 85 (Relop)
+
+
+State 89
+
+   86 Relop: EQCOMP •
+
+    $default  reduce using rule 86 (Relop)
+
+
+State 90
+
+   87 Relop: NOTEQ •
+
+    $default  reduce using rule 87 (Relop)
+
+
+State 91
+
+   60 Expr: Expr Relop • E
+
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 83
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    '('        shift, and go to state 48
+    '!'        shift, and go to state 50
+
+    E  go to state 108
+    T  go to state 59
+    F  go to state 60
+
+
+State 92
+
+   62 E: E '+' • T
+
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 83
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    '('        shift, and go to state 48
+    '!'        shift, and go to state 50
+
+    T  go to state 109
+    F  go to state 60
+
+
+State 93
+
+   63 E: E '-' • T
+
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 83
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    '('        shift, and go to state 48
+    '!'        shift, and go to state 50
+
+    T  go to state 110
+    F  go to state 60
+
+
+State 94
+
+   65 T: T '*' • F
+
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 83
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    '('        shift, and go to state 48
+    '!'        shift, and go to state 50
+
+    F  go to state 111
+
+
+State 95
+
+   66 T: T '/' • F
+
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 83
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    '('        shift, and go to state 48
+    '!'        shift, and go to state 50
+
+    F  go to state 112
+
+
+State 96
+
+   28 MainArg2: CHAR '*' ID '[' • ']' ',' MainArg3
+   29         | CHAR '*' ID '[' • ']'
+
+    ']'  shift, and go to state 113
+
+
+State 97
+
+   27 MainArg2: CHAR '*' '*' ID • ',' MainArg3
+   30         | CHAR '*' '*' ID •
+
+    ','  shift, and go to state 114
+
+    $default  reduce using rule 30 (MainArg2)
+
+
+State 98
+
+   55 VarInit: ID '=' STRLITERAL •
+
+    $default  reduce using rule 55 (VarInit)
+
+
+State 99
+
+   52 VarInit: ID $@5 '=' • Expr
+
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 83
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    '('        shift, and go to state 48
+    '!'        shift, and go to state 50
+
+    Expr  go to state 115
+    E     go to state 58
+    T     go to state 59
+    F     go to state 60
+
+
+State 100
+
+   80 Logical: '&' • '&'
+
+    '&'  shift, and go to state 116
+
+
+State 101
+
+   81 Logical: '|' • '|'
+
+    '|'  shift, and go to state 117
+
+
+State 102
+
+   78 Condition: VarInit Logical • Condition
+
+    CHARACTER  shift, and go to state 41
+    ID         shift, and go to state 42
+    INTEGER    shift, and go to state 43
+    NUM        shift, and go to state 44
+    INC        shift, and go to state 45
+    DEC        shift, and go to state 46
+    '('        shift, and go to state 48
+    '!'        shift, and go to state 50
+
+    VarInit    go to state 69
+    IncDec     go to state 56
+    Expr       go to state 57
+    E          go to state 58
+    T          go to state 59
+    F          go to state 60
+    Condition  go to state 118
+
+
+State 103
+
+   72 F: '(' Condition ')' •
+
+    $default  reduce using rule 72 (F)
+
+
+State 104
+
+   39 Body: '{' $@2 Body • '}'
+
+    '}'  shift, and go to state 119
+
+
+State 105
+
+   77 F: '!' '(' Condition • ')'
+
+    ')'  shift, and go to state 120
+
+
+State 106
+
+   44 VarList: ID ',' • $@3 VarList
+
+    $default  reduce using rule 43 ($@3)
+
+    $@3  go to state 121
+
+
+State 107
+
+   46 VarList: ID '=' • VarInit ',' $@4 VarList
+   48        | ID '=' • VarInit
+   49        | ID '=' • STRLITERAL
+
+    CHARACTER   shift, and go to state 41
+    ID          shift, and go to state 42
+    INTEGER     shift, and go to state 43
+    NUM         shift, and go to state 44
+    STRLITERAL  shift, and go to state 122
+    INC         shift, and go to state 45
+    DEC         shift, and go to state 46
+    '('         shift, and go to state 48
+    '!'         shift, and go to state 50
+
+    VarInit  go to state 123
+    IncDec   go to state 56
+    Expr     go to state 57
+    E        go to state 58
+    T        go to state 59
+    F        go to state 60
+
+
+State 108
+
+   60 Expr: Expr Relop E •
+   62 E: E • '+' T
+   63  | E • '-' T
+
+    '+'  shift, and go to state 92
+    '-'  shift, and go to state 93
+
+    $default  reduce using rule 60 (Expr)
+
+
+State 109
+
+   62 E: E '+' T •
+   65 T: T • '*' F
+   66  | T • '/' F
+
+    '*'  shift, and go to state 94
+    '/'  shift, and go to state 95
+
+    $default  reduce using rule 62 (E)
+
+
+State 110
+
+   63 E: E '-' T •
+   65 T: T • '*' F
+   66  | T • '/' F
+
+    '*'  shift, and go to state 94
+    '/'  shift, and go to state 95
+
+    $default  reduce using rule 63 (E)
+
+
+State 111
+
+   65 T: T '*' F •
+
+    $default  reduce using rule 65 (T)
+
+
+State 112
+
+   66 T: T '/' F •
+
+    $default  reduce using rule 66 (T)
+
+
+State 113
+
+   28 MainArg2: CHAR '*' ID '[' ']' • ',' MainArg3
+   29         | CHAR '*' ID '[' ']' •
+
+    ','  shift, and go to state 124
+
+    $default  reduce using rule 29 (MainArg2)
+
+
+State 114
+
+   27 MainArg2: CHAR '*' '*' ID ',' • MainArg3
+
+    CHAR  shift, and go to state 125
+
+    $default  reduce using rule 34 (MainArg3)
+
+    MainArg3  go to state 126
+
+
+State 115
+
+   52 VarInit: ID $@5 '=' Expr •
+   60 Expr: Expr • Relop E
+
+    LESSER     shift, and go to state 85
+    LESSEREQ   shift, and go to state 86
+    GREATER    shift, and go to state 87
+    GREATEREQ  shift, and go to state 88
+    EQCOMP     shift, and go to state 89
+    NOTEQ      shift, and go to state 90
+
+    $default  reduce using rule 52 (VarInit)
+
+    Relop  go to state 91
+
+
+State 116
+
+   80 Logical: '&' '&' •
+
+    $default  reduce using rule 80 (Logical)
+
+
+State 117
+
+   81 Logical: '|' '|' •
+
+    $default  reduce using rule 81 (Logical)
+
+
+State 118
+
+   78 Condition: VarInit Logical Condition •
+
+    $default  reduce using rule 78 (Condition)
+
+
+State 119
+
+   39 Body: '{' $@2 Body '}' •
+
+    $default  reduce using rule 39 (Body)
+
+
+State 120
+
+   77 F: '!' '(' Condition ')' •
+
+    $default  reduce using rule 77 (F)
+
+
+State 121
+
+   44 VarList: ID ',' $@3 • VarList
+
+    ID  shift, and go to state 77
+
+    VarList  go to state 127
+
+
+State 122
+
+   49 VarList: ID '=' STRLITERAL •
+
+    $default  reduce using rule 49 (VarList)
+
+
+State 123
+
+   46 VarList: ID '=' VarInit • ',' $@4 VarList
+   48        | ID '=' VarInit •
+
+    ','  shift, and go to state 128
+
+    $default  reduce using rule 48 (VarList)
+
+
+State 124
+
+   28 MainArg2: CHAR '*' ID '[' ']' ',' • MainArg3
+
+    CHAR  shift, and go to state 125
+
+    $default  reduce using rule 34 (MainArg3)
+
+    MainArg3  go to state 129
+
+
+State 125
+
+   32 MainArg3: CHAR • '*' '*' ID
+   33         | CHAR • '*' ID '[' ']'
+
+    '*'  shift, and go to state 130
+
+
+State 126
+
+   27 MainArg2: CHAR '*' '*' ID ',' MainArg3 •
+
+    $default  reduce using rule 27 (MainArg2)
+
+
+State 127
+
+   44 VarList: ID ',' $@3 VarList •
+
+    $default  reduce using rule 44 (VarList)
+
+
+State 128
+
+   46 VarList: ID '=' VarInit ',' • $@4 VarList
+
+    $default  reduce using rule 45 ($@4)
+
+    $@4  go to state 131
+
+
+State 129
+
+   28 MainArg2: CHAR '*' ID '[' ']' ',' MainArg3 •
+
+    $default  reduce using rule 28 (MainArg2)
+
+
+State 130
+
+   32 MainArg3: CHAR '*' • '*' ID
+   33         | CHAR '*' • ID '[' ']'
+
+    ID   shift, and go to state 132
+    '*'  shift, and go to state 133
+
+
+State 131
+
+   46 VarList: ID '=' VarInit ',' $@4 • VarList
+
+    ID  shift, and go to state 77
+
+    VarList  go to state 134
+
+
+State 132
+
+   33 MainArg3: CHAR '*' ID • '[' ']'
+
+    '['  shift, and go to state 135
+
+
+State 133
+
+   32 MainArg3: CHAR '*' '*' • ID
+
+    ID  shift, and go to state 136
+
+
+State 134
+
+   46 VarList: ID '=' VarInit ',' $@4 VarList •
+
+    $default  reduce using rule 46 (VarList)
+
+
+State 135
+
+   33 MainArg3: CHAR '*' ID '[' • ']'
+
+    ']'  shift, and go to state 137
+
+
+State 136
+
+   32 MainArg3: CHAR '*' '*' ID •
+
+    $default  reduce using rule 32 (MainArg3)
+
+
+State 137
+
+   33 MainArg3: CHAR '*' ID '[' ']' •
+
+    $default  reduce using rule 33 (MainArg3)

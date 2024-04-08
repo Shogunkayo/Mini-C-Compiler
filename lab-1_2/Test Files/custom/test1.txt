@@ -1,0 +1,56 @@
+#include <iostream.h>
+#include "myheader.h"
+
+int volatile main (int x, char *y[], char**z) {
+
+	if (10 + 10) {
+	}
+	else {
+	}
+
+
+	int const x=a=10.2, y=0, z = -10.0e-3, b = (3 * 2 && z);
+	char volatile i = (x > (x + 10));
+
+	int a, b;
+	float a, b;
+
+	x * 10;
+	1 < 10;
+
+	x++;
+	--x;
+
+	y = 'x';
+
+	x  = x * 10;
+	if ((y && z * 10) || (z)) {
+		x = 10;
+	}
+	else if (10) {}
+
+	int a[][20];
+
+	while (x != 10) {
+		x + 10;
+		while (x != 10);
+		break;
+	}
+
+	for (int i = 10; i < 10 ; x--) {
+		for (int i = 10; i < 10 ; i = i + 1);
+		x + 10;
+		if (x < 10) {
+			break;
+		}
+	}
+
+	switch (x)
+		case 1: break;
+	
+	do x + 10;
+	while (x < 1)
+
+	if (x) {
+	}
+}
