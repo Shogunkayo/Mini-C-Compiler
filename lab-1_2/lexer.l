@@ -65,8 +65,8 @@ exponent			[eE][-+]?{digit}+
 
 \'.\'									{ yylval = strdup(yytext); return CHARACTER; }
 {alphabet}({alphabet}|{digit}|_)*		{ yylval = strdup(yytext); return ID; }
-{digit}+							{ yylval = strdup(yytext); return INTEGER; }
-{digit}+(\.{digit}+)?{exponent}?	{ yylval = strdup(yytext); return NUM; }
+{digit}+								{ yylval = strdup(yytext); return INTEGER; }
+{digit}+(\.{digit}+)?{exponent}?		{ yylval = strdup(yytext); return NUM; }
 \"([^\"\n\\]|\\.)*\"					{ yylval = strdup(yytext); return STRLITERAL; }
 
 \.		{ return DOT; }
@@ -94,8 +94,8 @@ exponent			[eE][-+]?{digit}+
 
 "*"		{ return '*'; }
 "/"		{ return '/'; }
-"+"		{ return PLUS; }
-"-"		{ return MINUS; }
+"+"		{ return '+'; }
+"-"		{ return '-'; }
 "%"		{ return '%'; }
 
 "<<"	{ return SFTLEFT; }

@@ -24,7 +24,7 @@
 %token HEADER MAIN RETURN
 %token CHARACTER ID INTEGER NUM STRLITERAL
 %token DOT STRUCTPOINT SINQUOTE
-%token INC DEC PLUS MINUS
+%token INC DEC
 %token SFTLEFT SFTRIGHT
 %token SHORTADD SHORTMUL SHORTDIV SHORTSUB SHORTMOD
 %token LESSER LESSEREQ GREATER GREATEREQ EQCOMP NOTEQ
@@ -214,7 +214,7 @@ IncDec: ID INC
 Expr: Expr Relop E
 	| E 
 
-E: E PLUS T {
+E: E '+' T {
 	if (type == SYM_TABLE_INT || type == SYM_TABLE_CHAR)
 		sprintf($$, "%d", (atoi($1) + atoi($3)));
 	else if (type == SYM_TABLE_FLOAT || type == SYM_TABLE_DOUBLE)
@@ -225,7 +225,7 @@ E: E PLUS T {
 		sprintf($$, "~");
 	}
  }
- | E MINUS T {	
+ | E '-' T {	
 	if (type == SYM_TABLE_INT || type == SYM_TABLE_CHAR)
 		sprintf($$, "%d", (atoi($1) - atoi($3)));
 	else if (type == SYM_TABLE_FLOAT || type == SYM_TABLE_DOUBLE)
