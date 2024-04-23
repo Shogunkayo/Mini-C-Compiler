@@ -32,11 +32,15 @@
 Start: VarInit { display($1); YYACCEPT; } ;
 
 VarInit: ID '=' E {
+        /*
 	   	ast_node_value val, val_left;
 		val.ast_char = '=';
 		val_left.ast_string = strdup($1);
 	   	$$ = create_node("ASSIGN", "ast_char", val, print_char_value, create_node("ID", "ast_string", val_left, print_string_value, NULL, NULL), $3);
-	   };
+	    */
+
+        $$ = $3;
+       };
 
 E: E '+' T {
  	ast_node_value val;
@@ -69,7 +73,6 @@ F: '(' E ')' { $$ = $2; }
 	$$ = create_node("NUM", "ast_double", val, print_double_value, NULL, NULL);
  }
  | INTEGER {
- 	printf("INTEGER FOUND: %d\n", $1);
 	ast_node_value val;
 	val.ast_int = $1;
 	$$ = create_node("INT", "ast_int", val, print_int_value, NULL, NULL);
