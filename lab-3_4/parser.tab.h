@@ -106,21 +106,19 @@ extern int yydebug;
     SINQUOTE = 307,                /* SINQUOTE  */
     INC = 308,                     /* INC  */
     DEC = 309,                     /* DEC  */
-    PLUS = 310,                    /* PLUS  */
-    MINUS = 311,                   /* MINUS  */
-    SFTLEFT = 312,                 /* SFTLEFT  */
-    SFTRIGHT = 313,                /* SFTRIGHT  */
-    SHORTADD = 314,                /* SHORTADD  */
-    SHORTMUL = 315,                /* SHORTMUL  */
-    SHORTDIV = 316,                /* SHORTDIV  */
-    SHORTSUB = 317,                /* SHORTSUB  */
-    SHORTMOD = 318,                /* SHORTMOD  */
-    LESSER = 319,                  /* LESSER  */
-    LESSEREQ = 320,                /* LESSEREQ  */
-    GREATER = 321,                 /* GREATER  */
-    GREATEREQ = 322,               /* GREATEREQ  */
-    EQCOMP = 323,                  /* EQCOMP  */
-    NOTEQ = 324                    /* NOTEQ  */
+    SFTLEFT = 310,                 /* SFTLEFT  */
+    SFTRIGHT = 311,                /* SFTRIGHT  */
+    SHORTADD = 312,                /* SHORTADD  */
+    SHORTMUL = 313,                /* SHORTMUL  */
+    SHORTDIV = 314,                /* SHORTDIV  */
+    SHORTSUB = 315,                /* SHORTSUB  */
+    SHORTMOD = 316,                /* SHORTMOD  */
+    LESSER = 317,                  /* LESSER  */
+    LESSEREQ = 318,                /* LESSEREQ  */
+    GREATER = 319,                 /* GREATER  */
+    GREATEREQ = 320,               /* GREATEREQ  */
+    EQCOMP = 321,                  /* EQCOMP  */
+    NOTEQ = 322                    /* NOTEQ  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

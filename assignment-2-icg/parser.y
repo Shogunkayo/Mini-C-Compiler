@@ -12,6 +12,7 @@
 	extern char *yytext;
 	int err = 0;
 	int temp_no = 1;
+    int label_no = 1;
 
 	FILE* icg_f;
 %}
@@ -29,13 +30,30 @@ Start: Prog { YYACCEPT; } ;
 Prog: IfCond
     | DoWhlCond ;
 
-IfCond: IF '(' Condition ')' '{' Body '}' ELSE '{' Body '}' {
+IfCond: IF '(' Condition ')' '{' Body '}' {
+        $2 = create_label();
+        quad_gen("goto", " ", " ", $2);
+        quad_gen("Label", " ", " ", $3);
+    } ELSE '{' Body '}' {
+        quad_gen("Label", " ", " ", $2);
       } ;
 
-DoWhlCond: DO '{' Body '}' WHILE '(' Condition ')' {
+DoWhlCond: DO {
+            $1 = create_label();
+            quad_gen("Label", " ", " ", $1);
+        } '{' Body '}' WHILE '(' Condition ')' {
+            quad_gen("goto", " ", " ", $1);
+            quad_gen("Label", " ", " ", $7);
          } ;
 
 Condition: F Relop F {
+            $$ = create_temp();
+            quad_gen($2, $1, $3, $$);
+            
+            $1 = create_label();
+            quad_gen("ifFalse", $$, " ", $1);
+
+            $$ = $1;
          } ;
 
 Relop: LESSER   { $$ = "<"; }
@@ -49,8 +67,7 @@ Stmt: IfCond
     | DoWhlCond ';'
     | VarInit ';' ;
 
-Body: Stmt Body {
-    }
+Body: Stmt Body
     | Stmt ;
 
 VarInit: ID '=' E { quad_gen("=", $3, " ", $1); };

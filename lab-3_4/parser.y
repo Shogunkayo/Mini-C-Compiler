@@ -283,11 +283,11 @@ F: Number
  | '!' '(' Condition ')' ;
 
 Number: NUM
-	  | PLUS NUM { $$ = $2; }
-	  | MINUS NUM { $$ = get_negative($2); }
+	  | '+' NUM { $$ = $2; }
+	  | '-' NUM { $$ = get_negative($2); }
 	  | INTEGER
-	  | PLUS INTEGER { $$ = $2; }
-	  | MINUS INTEGER { $$ = get_negative($2); } ;
+	  | '+' INTEGER { $$ = $2; }
+	  | '-' INTEGER { $$ = get_negative($2); } ;
 
 Condition: VarInit Logical Condition
 		 | VarInit ;
