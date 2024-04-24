@@ -41,9 +41,10 @@ IfCond: IF '(' Condition ')' '{' Body '}' {
 DoWhlCond: DO {
             $1 = create_label();
             quad_gen("Label", " ", " ", $1);
-        } '{' Body '}' WHILE '(' Condition ')' {
+        } '{' Body '}' WHILE '(' DoWhlCondition ')' {
+            $3 = create_label();  
             quad_gen("goto", " ", " ", $1);
-            quad_gen("Label", " ", " ", $7);
+            quad_gen("Label", " ", " ", $3);
          } ;
 
 Condition: F Relop F {
@@ -55,6 +56,11 @@ Condition: F Relop F {
 
             $$ = $1;
          } ;
+
+DoWhlCondition: F Relop F {
+                $$ = create_temp();
+                quad_gen($2, $1, $3, $$);
+              };
 
 Relop: LESSER   { $$ = "<"; }
      | LESSEREQ { $$ = "<="; }

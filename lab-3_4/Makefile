@@ -6,11 +6,11 @@ build:
 test:
 	./a.out < ./testcases/custom.c
 
-test_1:
+test1:
 	./a.out < ./testcases/test1.c
 
-test_2:
+test2:
 	./a.out < ./testcases/test2.c
 
-test_3:
+test3:
 	./a.out < ./testcases/test3.c

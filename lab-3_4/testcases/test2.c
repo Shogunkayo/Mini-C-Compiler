@@ -10,6 +10,7 @@ int main()
 	}
 	else
 	{
-		int z=5*6+5;
+        int x = 10;
+		int z=5*6+5+x;
 	}
 }

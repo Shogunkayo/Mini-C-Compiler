@@ -513,8 +513,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    32,    32,    34,    41,    46,    51,    53,    58,    63,
-      65,    66,    71,    77
+       0,    32,    32,    34,    45,    50,    55,    57,    62,    67,
+      69,    70,    75,    80
 };
 #endif
 
@@ -1090,93 +1090,96 @@ yyreduce:
   case 3: /* VarInit: ID '=' E  */
 #line 34 "parser.y"
                   {
+        /*
 	   	ast_node_value val, val_left;
 		val.ast_char = '=';
-		val_left.ast_string = strdup((yyvsp[-2].string));
-	   	(yyval.node) = create_node("ASSIGN", "ast_char", val, print_char_value, create_node("ID", "ast_string", val_left, print_string_value, NULL, NULL), (yyvsp[0].node));
-	   }
-#line 1099 "parser.tab.c"
+		val_left.ast_string = strdup($1);
+	   	$$ = create_node("ASSIGN", "ast_char", val, print_char_value, create_node("ID", "ast_string", val_left, print_string_value, NULL, NULL), $3);
+	    */
+
+        (yyval.node) = (yyvsp[0].node);
+       }
+#line 1103 "parser.tab.c"
     break;
 
   case 4: /* E: E '+' T  */
-#line 41 "parser.y"
+#line 45 "parser.y"
            {
  	ast_node_value val;
 	val.ast_char = '+';
 	(yyval.node) = create_node("AOP", "ast_char", val, print_char_value, (yyvsp[-2].node), (yyvsp[0].node)); 
  }
-#line 1109 "parser.tab.c"
+#line 1113 "parser.tab.c"
     break;
 
   case 5: /* E: E '-' T  */
-#line 46 "parser.y"
+#line 50 "parser.y"
            {
  	ast_node_value val;
 	val.ast_char = '-';
 	(yyval.node) = create_node("AOP", "ast_char", val, print_char_value, (yyvsp[-2].node), (yyvsp[0].node));
  }
-#line 1119 "parser.tab.c"
+#line 1123 "parser.tab.c"
     break;
 
   case 7: /* T: T '*' F  */
-#line 53 "parser.y"
+#line 57 "parser.y"
            {
 	ast_node_value val;
 	val.ast_char = '*';
 	(yyval.node) = create_node("AOP", "ast_char", val, print_char_value, (yyvsp[-2].node), (yyvsp[0].node));
  }
-#line 1129 "parser.tab.c"
+#line 1133 "parser.tab.c"
     break;
 
   case 8: /* T: T '/' F  */
-#line 58 "parser.y"
+#line 62 "parser.y"
            {
 	ast_node_value val;
 	val.ast_char = '/';
 	(yyval.node) = create_node("AOP", "ast_char", val, print_char_value, (yyvsp[-2].node), (yyvsp[0].node));
  }
-#line 1139 "parser.tab.c"
+#line 1143 "parser.tab.c"
     break;
 
   case 10: /* F: '(' E ')'  */
-#line 65 "parser.y"
+#line 69 "parser.y"
              { (yyval.node) = (yyvsp[-1].node); }
-#line 1145 "parser.tab.c"
+#line 1149 "parser.tab.c"
     break;
 
   case 11: /* F: NUM  */
-#line 66 "parser.y"
+#line 70 "parser.y"
        { 
  	ast_node_value val;
 	val.ast_double = (yyvsp[0].number);
 	(yyval.node) = create_node("NUM", "ast_double", val, print_double_value, NULL, NULL);
  }
-#line 1155 "parser.tab.c"
+#line 1159 "parser.tab.c"
     break;
 
   case 12: /* F: INTEGER  */
-#line 71 "parser.y"
+#line 75 "parser.y"
            {
- 	printf("INTEGER FOUND: %d\n", (yyvsp[0].integer));
 	ast_node_value val;
 	val.ast_int = (yyvsp[0].integer);
 	(yyval.node) = create_node("INT", "ast_int", val, print_int_value, NULL, NULL);
  }
-#line 1166 "parser.tab.c"
+#line 1169 "parser.tab.c"
     break;
 
   case 13: /* F: ID  */
-#line 77 "parser.y"
+#line 80 "parser.y"
       {
 	ast_node_value val;
 	val.ast_string = strdup((yyvsp[0].string));
 	(yyval.node) = create_node("ID", "ast_string", val, print_string_value, NULL, NULL);
  }
-#line 1176 "parser.tab.c"
+#line 1179 "parser.tab.c"
     break;
 
 
-#line 1180 "parser.tab.c"
+#line 1183 "parser.tab.c"
 
       default: break;
     }
@@ -1369,7 +1372,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 83 "parser.y"
+#line 86 "parser.y"
 
 
 int main() {
